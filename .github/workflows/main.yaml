@@ -25,19 +25,10 @@ jobs:
           fetch-depth: 0
           path: ./src/github.com/${{ github.repository }}
 
-      - uses: actions/cache@v2
-        with:
-          path: ~/go/pkg/mod
-          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
-
       - name: Install dependences
         run: |
           sudo apt-get install -y jq
           curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | BINARY=golangci-lint sh -s -- -d -b $(go env GOPATH)/bin v1.30.0
-
-      - name: Run verify test
-        run: make verify
-        working-directory: ./src/github.com/${{ github.repository }}
 
       - name: Run lint test
         run: make lint
